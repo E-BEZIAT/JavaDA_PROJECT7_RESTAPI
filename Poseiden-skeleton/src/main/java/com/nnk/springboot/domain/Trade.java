@@ -1,12 +1,68 @@
 package com.nnk.springboot.domain;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.sql.Timestamp;
 
 
 @Entity
+@Getter
+@Setter
+@ToString
 @Table(name = "trade")
 public class Trade {
     // TODO: Map columns in data table TRADE with corresponding java fields
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private int tradeId;
+    @Column(length = 30, nullable = false)
+    private String account;
+    @Column(length = 30, nullable = false)
+    private String type;
+
+    private Double buyQuantity;
+
+    private Double sellQuantity;
+
+    private Double buyPrice;
+
+    private Double sellPrice;
+
+    private Timestamp tradeDate;
+    @Column(length = 125)
+    private String security;
+    @Column(length = 10)
+    private String status;
+    @Column(length = 125)
+    private String trader;
+    @Column(length = 125)
+    private String benchmark;
+    @Column(length = 125)
+    private String book;
+    @Column(length = 125)
+    private String creationName;
+
+    private Timestamp creationDate;
+    @Column(length = 125)
+    private String revisionName;
+
+    private Timestamp revisionDate;
+    @Column(length = 125)
+    private String dealName;
+    @Column(length = 125)
+    private String dealType;
+    @Column(length = 125)
+    private String sourceListId;
+    @Column(length = 125)
+    private String side;
+
+    public Trade(String account, String type) {
+        this.account = account;
+        this.type = type;
+    }
+
+    public Trade() {}
 }
