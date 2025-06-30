@@ -34,21 +34,13 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void updateUser(String oldUsername, UserParameter userParameter) {
-        User user = userRepository.findByUsername(oldUsername);
+    public void updateUser(int id, UserParameter userParameter) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        if (user == null) {
-            throw new IllegalArgumentException("user not found");
-        }
 
-        String newUsername = userParameter.getUsername();
-        if (newUsername != null && !newUsername.isBlank() && !newUsername.equals(oldUsername)) {
-
-            if (userRepository.findByUsername(newUsername) != null) {
-                throw new IllegalArgumentException("Ce nom d'utilisateur n'est pas disponible.");
-            }
-
-            user.setUsername(newUsername);
+        if (userParameter.getUsername() != null && !userParameter.getUsername().isBlank()) {
+            user.setUsername(userParameter.getUsername());
         }
 
         if (userParameter.getPassword() != null && !userParameter.getPassword().isBlank()) {
@@ -72,8 +64,9 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    public UserDTO readUser (String username) {
-        User user = userRepository.findByUsername(username);
+    public UserDTO readUser (int id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         if (user == null) {
             throw new IllegalArgumentException("user not found");
         }

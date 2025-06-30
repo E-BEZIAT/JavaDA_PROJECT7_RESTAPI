@@ -1,12 +1,12 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.UserParameter;
+import com.nnk.springboot.domain.response.UserDTO;
 import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,26 +46,31 @@ public class UserController {
         return "user/add";
     }
 
-    @GetMapping("/user/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        User user = userRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
-        user.setPassword("");
-        model.addAttribute("user", user);
+    @GetMapping("/user/update/")
+    public String showUpdateForm(HttpSession httpSession, Model model) {
+        Integer id = (Integer) httpSession.getAttribute("id");
+        if (id == null) {
+            return "redirect:/login";
+        }
+
+        UserDTO userDTO = userService.readUser(id);
+        model.addAttribute("user", userDTO);
         return "user/update";
     }
 
-    @PostMapping("/user/update/{id}")
-    public String updateUser(@PathVariable("id") Integer id, @Valid User user,
-                             BindingResult result, Model model) {
+    @PostMapping("/user/update/")
+    public String updateUser(@Valid UserParameter user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             return "user/update";
         }
 
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        user.setPassword(encoder.encode(user.getPassword()));
-        user.setId(id);
-        userRepository.save(user);
-        model.addAttribute("users", userRepository.findAll());
+        Integer id = (Integer) session.getAttribute("id");
+        if (id == null) {
+            return "redirect:/login";
+        }
+
+        userService.updateUser(id, user);
+        model.addAttribute("success", true);
         return "redirect:/user/list";
     }
 
