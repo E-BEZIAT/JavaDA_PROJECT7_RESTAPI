@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @ToString
 public class TradeParameter {
 
+    private int tradeId;
     private String account;
     private String type;
     private Double buyQuantity;

@@ -82,6 +82,7 @@ public class BidListService {
                 .orElseThrow(() -> new IllegalArgumentException("bidList not found"));
 
         return new BidListDTO(
+                bidList.getBidListId(),
                 bidList.getAccount(),
                 bidList.getType(),
                 bidList.getBidQuantity(),

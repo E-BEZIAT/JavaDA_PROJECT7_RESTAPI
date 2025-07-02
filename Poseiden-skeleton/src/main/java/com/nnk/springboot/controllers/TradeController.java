@@ -52,12 +52,12 @@ public class TradeController {
     public String validate(@Valid TradeParameter trade, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Trade list
         if (result.hasErrors()) {
-            return "trade/list";
+            return "trade/add";
         }
 
         tradeService.createTrade(trade);
         model.addAttribute("message", "Trade created successfully");
-        return "trade/add";
+        return "trade/list";
     }
 
     @GetMapping("/trade/update/{id}")

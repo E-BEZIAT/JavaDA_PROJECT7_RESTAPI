@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @ToString
 public class TradeDTO {
 
+    private int tradeId;
     private String account;
     private String type;
     private Double buyQuantity;
@@ -33,6 +34,7 @@ public class TradeDTO {
     private String side;
 
     public TradeDTO(
+            int tradeId,
             String account,
             String type,
             Double buyQuantity,
@@ -54,6 +56,7 @@ public class TradeDTO {
             String sourceListId,
             String side
     ){
+        this.tradeId = tradeId;
         this.account = account;
         this.type = type;
         this.buyQuantity = buyQuantity;

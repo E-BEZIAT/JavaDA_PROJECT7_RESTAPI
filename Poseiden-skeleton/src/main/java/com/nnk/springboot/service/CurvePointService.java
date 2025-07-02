@@ -49,6 +49,7 @@ public class CurvePointService {
                 .orElseThrow(() -> new IllegalArgumentException("CurvePoint not found"));
 
         return new CurvePointDTO(
+                curvePoint.getId(),
                 curvePoint.getCurveId(),
                 curvePoint.getAsOfDate(),
                 curvePoint.getTerm(),

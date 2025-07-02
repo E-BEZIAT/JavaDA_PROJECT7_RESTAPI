@@ -9,14 +9,16 @@ import lombok.ToString;
 @ToString
 public class RatingDTO {
 
+    private int id;
     private String moodysRating;
-    private String sandRating;
+    private String sandPRating;
     private String fitchRating;
     private int orderNumber;
 
-    public RatingDTO(String moodysRating, String sandRating, String fitchRating, int orderNumber) {
+    public RatingDTO(int id, String moodysRating, String sandPRating, String fitchRating, int orderNumber) {
+        this.id = id;
         this.moodysRating = moodysRating;
-        this.sandRating = sandRating;
+        this.sandPRating = sandPRating;
         this.fitchRating = fitchRating;
         this.orderNumber = orderNumber;
     }

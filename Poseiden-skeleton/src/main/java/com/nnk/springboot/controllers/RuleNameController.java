@@ -1,7 +1,7 @@
 package com.nnk.springboot.controllers;
 
 import com.nnk.springboot.domain.User;
-import com.nnk.springboot.domain.parameters.RuleNameParamater;
+import com.nnk.springboot.domain.parameters.RuleNameParameter;
 import com.nnk.springboot.domain.response.RuleNameDTO;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import com.nnk.springboot.repositories.UserRepository;
@@ -44,20 +44,20 @@ public class RuleNameController {
 
     @GetMapping("/ruleName/add")
     public String addRuleForm(Model model) {
-        model.addAttribute("ruleName", new RuleNameParamater());
+        model.addAttribute("ruleName", new RuleNameParameter());
         return "ruleName/add";
     }
 
     @PostMapping("/ruleName/validate")
-    public String validate(@Valid RuleNameParamater ruleName, BindingResult result, Model model) {
+    public String validate(@Valid RuleNameParameter ruleName, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return RuleName list
         if (result.hasErrors()) {
-            return "ruleName/list";
+            return "ruleName/add";
         }
 
         ruleNameService.createRuleName(ruleName);
         model.addAttribute("message", "RuleName added successfully");
-        return "ruleName/add";
+        return "ruleName/list";
     }
 
     @GetMapping("/ruleName/update/{id}")
@@ -69,7 +69,7 @@ public class RuleNameController {
     }
 
     @PostMapping("/ruleName/update/{id}")
-    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleNameParamater ruleName,
+    public String updateRuleName(@PathVariable("id") Integer id, @Valid RuleNameParameter ruleName,
                              BindingResult result, Model model) {
         // TODO: check required fields, if valid call service to update RuleName and return RuleName list
         if (result.hasErrors()) {

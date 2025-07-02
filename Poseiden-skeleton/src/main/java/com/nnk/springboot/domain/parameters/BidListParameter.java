@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @ToString
 public class BidListParameter {
 
+    private int bidListId;
     private String account;
     private String type;
     private Double bidQuantity;

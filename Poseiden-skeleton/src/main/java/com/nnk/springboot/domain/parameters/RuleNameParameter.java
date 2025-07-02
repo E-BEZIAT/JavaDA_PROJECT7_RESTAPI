@@ -7,8 +7,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class RuleNameParamater {
+public class RuleNameParameter {
 
+    private int id;
     private String name;
     private String description;
     private String json;

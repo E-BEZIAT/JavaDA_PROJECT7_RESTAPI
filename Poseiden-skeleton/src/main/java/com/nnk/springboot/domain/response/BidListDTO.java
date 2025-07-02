@@ -10,6 +10,7 @@ import java.sql.Timestamp;
 @Setter
 @ToString
 public class BidListDTO {
+    private int bidListId;
     private String account;
     private String type;
     private Double bidQuantity;
@@ -32,7 +33,8 @@ public class BidListDTO {
     private String sourceListId;
     private String side;
 
-    public BidListDTO(String account,
+    public BidListDTO(int bidListId,
+                      String account,
                       String type,
                       Double bidQuantity,
                       Double askQuantity,
@@ -54,6 +56,7 @@ public class BidListDTO {
                       String sourceListId,
                       String side
     ) {
+        this.bidListId = bidListId;
         this.account = account;
         this.type = type;
         this.bidQuantity = bidQuantity;

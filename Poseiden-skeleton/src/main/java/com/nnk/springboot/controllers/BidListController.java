@@ -29,7 +29,7 @@ public class BidListController {
     }
     // TODO: Inject Bid service
 
-    @RequestMapping("/bidList/list")
+    @GetMapping("/bidList/list")
     public String home(Model model, HttpSession session)
     {
         // TODO: call service find all bids to show to the view
@@ -52,12 +52,12 @@ public class BidListController {
     public String validate(@Valid BidListParameter bid, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return bid list
         if (result.hasErrors()) {
-            return "bidList/list";
+            return "bidList/add";
         }
 
         bidListService.createBidList(bid);
         model.addAttribute("message", "bidList created successfully");
-        return "bidList/add";
+        return "bidList/list";
     }
 
     @GetMapping("/bidList/update/{id}")

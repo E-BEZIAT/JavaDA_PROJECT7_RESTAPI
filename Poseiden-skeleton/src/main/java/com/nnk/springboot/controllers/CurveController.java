@@ -11,10 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class CurveController {
@@ -49,15 +46,15 @@ public class CurveController {
     }
 
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePointParameter curvePoint, BindingResult result, Model model) {
+    public String validate(@Valid @ModelAttribute("curvePoint") CurvePointParameter curvePoint, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Curve list
         if (result.hasErrors()) {
-            return "curvePoint/list";
+            return "curvePoint/add";
         }
 
         curvePointService.createCurvePoint(curvePoint);
         model.addAttribute("message", "CurvePoint created successfully");
-        return "curvePoint/add";
+        return "curvePoint/list";
     }
 
     @GetMapping("/curvePoint/update/{id}")

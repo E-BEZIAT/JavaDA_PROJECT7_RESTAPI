@@ -1,7 +1,7 @@
 package com.nnk.springboot.service;
 
 import com.nnk.springboot.domain.RuleName;
-import com.nnk.springboot.domain.parameters.RuleNameParamater;
+import com.nnk.springboot.domain.parameters.RuleNameParameter;
 import com.nnk.springboot.domain.response.RuleNameDTO;
 import com.nnk.springboot.repositories.RuleNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +13,30 @@ public class RuleNameService {
     @Autowired
     private RuleNameRepository ruleNameRepository;
 
-    public void createRuleName(RuleNameParamater ruleNameParamater) {
+    public void createRuleName(RuleNameParameter ruleNameParameter) {
 
         RuleName ruleName = new RuleName(
-                ruleNameParamater.getName(),
-                ruleNameParamater.getDescription(),
-                ruleNameParamater.getJson(),
-                ruleNameParamater.getTemplate(),
-                ruleNameParamater.getSqlStr(),
-                ruleNameParamater.getSqlPart()
+                ruleNameParameter.getName(),
+                ruleNameParameter.getDescription(),
+                ruleNameParameter.getJson(),
+                ruleNameParameter.getTemplate(),
+                ruleNameParameter.getSqlStr(),
+                ruleNameParameter.getSqlPart()
         );
 
         ruleNameRepository.save(ruleName);
     }
 
-    public void updateRuleName(RuleNameParamater ruleNameParamater, int id) {
+    public void updateRuleName(RuleNameParameter ruleNameParameter, int id) {
         RuleName ruleName = ruleNameRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("RuleName not found"));
 
-        ruleName.setName(ruleNameParamater.getName());
-        ruleName.setDescription(ruleNameParamater.getDescription());
-        ruleName.setJson(ruleNameParamater.getJson());
-        ruleName.setTemplate(ruleNameParamater.getTemplate());
-        ruleName.setSqlStr(ruleNameParamater.getSqlStr());
-        ruleName.setSqlPart(ruleNameParamater.getSqlPart());
+        ruleName.setName(ruleNameParameter.getName());
+        ruleName.setDescription(ruleNameParameter.getDescription());
+        ruleName.setJson(ruleNameParameter.getJson());
+        ruleName.setTemplate(ruleNameParameter.getTemplate());
+        ruleName.setSqlStr(ruleNameParameter.getSqlStr());
+        ruleName.setSqlPart(ruleNameParameter.getSqlPart());
         ruleNameRepository.save(ruleName);
     }
 
@@ -51,6 +51,7 @@ public class RuleNameService {
                 .orElseThrow(() -> new IllegalArgumentException("RuleName not found"));
 
         return new RuleNameDTO(
+                ruleName.getId(),
                 ruleName.getName(),
                 ruleName.getDescription(),
                 ruleName.getJson(),

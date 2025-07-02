@@ -52,11 +52,11 @@ public class RatingController {
     public String validate(@Valid RatingParameter rating, BindingResult result, Model model) {
         // TODO: check data valid and save to db, after saving return Rating list
         if (result.hasErrors()) {
-            return "rating/list";
+            return "rating/add";
         }
         ratingService.createRating(rating);
         model.addAttribute("message", "Rating created successfully");
-        return "rating/add";
+        return "rating/list";
     }
 
     @GetMapping("/rating/update/{id}")

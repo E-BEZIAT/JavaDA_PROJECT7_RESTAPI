@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class RuleNameDTO {
 
+    private int id;
     private String name;
     private String description;
     private String json;
@@ -16,7 +17,8 @@ public class RuleNameDTO {
     private String sqlStr;
     private String sqlPart;
 
-    public RuleNameDTO(String name, String description, String json, String template, String sqlStr, String sqlPart) {
+    public RuleNameDTO(int id, String name, String description, String json, String template, String sqlStr, String sqlPart) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.json = json;

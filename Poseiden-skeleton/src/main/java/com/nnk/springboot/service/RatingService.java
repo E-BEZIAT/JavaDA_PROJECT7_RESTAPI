@@ -17,7 +17,7 @@ public class RatingService {
 
         Rating rating = new Rating(
                 ratingParameter.getMoodysRating(),
-                ratingParameter.getSandRating(),
+                ratingParameter.getSandPRating(),
                 ratingParameter.getFitchRating(),
                 ratingParameter.getOrderNumber()
         );
@@ -30,7 +30,7 @@ public class RatingService {
                 .orElseThrow(() -> new IllegalArgumentException("Rating not found"));
 
         rating.setMoodysRating(ratingParameter.getMoodysRating());
-        rating.setSandPRating(ratingParameter.getSandRating());
+        rating.setSandPRating(ratingParameter.getSandPRating());
         rating.setFitchRating(ratingParameter.getFitchRating());
         rating.setOrderNumber(ratingParameter.getOrderNumber());
         ratingRepository.save(rating);
@@ -47,6 +47,7 @@ public class RatingService {
                 .orElseThrow(() -> new IllegalArgumentException("Rating not found"));
 
         return new RatingDTO(
+                rating.getId(),
                 rating.getMoodysRating(),
                 rating.getSandPRating(),
                 rating.getFitchRating(),

@@ -9,8 +9,9 @@ import lombok.ToString;
 @ToString
 public class RatingParameter {
 
+    private int id;
     private String moodysRating;
-    private String sandRating;
+    private String sandPRating;
     private String fitchRating;
     private int orderNumber;
 }

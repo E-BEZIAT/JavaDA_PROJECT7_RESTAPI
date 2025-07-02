@@ -80,6 +80,7 @@ public class TradeService {
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found"));
 
         return new TradeDTO(
+                trade.getTradeId(),
                 trade.getAccount(),
                 trade.getType(),
                 trade.getBuyQuantity(),

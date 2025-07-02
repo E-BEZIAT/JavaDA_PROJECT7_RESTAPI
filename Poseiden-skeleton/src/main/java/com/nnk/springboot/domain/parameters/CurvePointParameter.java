@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 @ToString
 public class CurvePointParameter {
 
+    private int id;
     private int curveId;
     private Timestamp asOfDate;
     private Double term;
