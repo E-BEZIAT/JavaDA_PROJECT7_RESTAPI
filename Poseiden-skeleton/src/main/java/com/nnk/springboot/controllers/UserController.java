@@ -10,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -37,18 +34,18 @@ public class UserController {
 
     @PostMapping("/user/validate")
     public String validate(@Valid UserParameter user, BindingResult result, Model model) {
-        if (!result.hasErrors()) {
-            return "redirect:/user/list";
+        if (result.hasErrors()) {
+            result.getAllErrors().forEach(error -> System.out.println("Validation error: " + error.toString()));
+            return "redirect:/user/add";
         }
 
         userService.createUser(user);
         model.addAttribute("message", "User created successfully");
-        return "user/add";
+        return "user/list";
     }
 
-    @GetMapping("/user/update/")
-    public String showUpdateForm(HttpSession httpSession, Model model) {
-        Integer id = (Integer) httpSession.getAttribute("id");
+    @GetMapping("/user/update/{id}")
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         if (id == null) {
             return "redirect:/login";
         }
@@ -58,8 +55,8 @@ public class UserController {
         return "user/update";
     }
 
-    @PostMapping("/user/update/")
-    public String updateUser(@Valid UserParameter user, BindingResult result, Model model, HttpSession session) {
+    @PostMapping("/user/update")
+    public String updateUser(@Valid @ModelAttribute("user") UserParameter user, BindingResult result, Model model, HttpSession session) {
         if (result.hasErrors()) {
             return "user/update";
         }

@@ -1,9 +1,12 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.RatingParameter;
 import com.nnk.springboot.domain.response.RatingDTO;
 import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.RatingService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +20,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RatingController {
     private final RatingRepository ratingRepository;
     private final RatingService ratingService;
+    private final UserRepository userRepository;
 
-    public RatingController(RatingRepository ratingRepository, RatingService ratingService) {
+    public RatingController(RatingRepository ratingRepository, RatingService ratingService, UserRepository userRepository) {
         this.ratingRepository = ratingRepository;
         this.ratingService = ratingService;
+        this.userRepository = userRepository;
     }
     // TODO: Inject Rating service
 
     @RequestMapping("/rating/list")
-    public String home(Model model)
+    public String home(Model model, HttpSession session)
     {
         // TODO: find all Rating, add to model
         model.addAttribute("ratings", ratingRepository.findAll());
+        Integer userId = (Integer) session.getAttribute("id");
+        if (userId != null) {
+            User user = userRepository.findById(userId).orElse(null);
+            model.addAttribute("loggedUsername", user.getUsername());
+        }
         return "rating/list";
     }
 

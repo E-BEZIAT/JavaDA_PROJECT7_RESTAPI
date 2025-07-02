@@ -1,9 +1,12 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.BidListParameter;
 import com.nnk.springboot.domain.response.BidListDTO;
 import com.nnk.springboot.repositories.BidListRepository;
+import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.BidListService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +20,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BidListController {
     private final BidListRepository bidListRepository;
     private final BidListService bidListService;
+    private final UserRepository userRepository;
 
-    public BidListController(BidListRepository bidListRepository, BidListService bidListService) {
+    public BidListController(BidListRepository bidListRepository, BidListService bidListService, UserRepository userRepository) {
         this.bidListRepository = bidListRepository;
         this.bidListService = bidListService;
+        this.userRepository = userRepository;
     }
     // TODO: Inject Bid service
 
     @RequestMapping("/bidList/list")
-    public String home(Model model)
+    public String home(Model model, HttpSession session)
     {
         // TODO: call service find all bids to show to the view
         model.addAttribute("bidLists", bidListRepository.findAll());
+        Integer userId = (Integer) session.getAttribute("id");
+        if (userId != null) {
+            User user = userRepository.findById(userId).orElse(null);
+            model.addAttribute("loggedUsername", user.getUsername());
+        }
         return "bidList/list";
     }
 

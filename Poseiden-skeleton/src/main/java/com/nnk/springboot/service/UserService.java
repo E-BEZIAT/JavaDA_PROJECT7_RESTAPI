@@ -5,6 +5,7 @@ import com.nnk.springboot.domain.parameters.UserParameter;
 import com.nnk.springboot.domain.response.UserDTO;
 import com.nnk.springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -14,6 +15,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void createUser(UserParameter userParameter) {
         Optional<User> optUser = userRepository.findByUsernameAndPassword(
@@ -24,9 +27,11 @@ public class UserService {
             throw new IllegalArgumentException("User already exists");
         }
 
+        String encodedPassword = passwordEncoder.encode(userParameter.getPassword());
+
         User user = new User(
                 userParameter.getUsername(),
-                userParameter.getPassword(),
+                encodedPassword,
                 userParameter.getFullname(),
                 userParameter.getRole()
         );
@@ -44,7 +49,8 @@ public class UserService {
         }
 
         if (userParameter.getPassword() != null && !userParameter.getPassword().isBlank()) {
-            user.setPassword(userParameter.getPassword());
+            String encodedPassword = passwordEncoder.encode(userParameter.getPassword());
+            user.setPassword(encodedPassword);
         }
 
         if (userParameter.getFullname() != null && !userParameter.getFullname().isBlank()) {
@@ -72,6 +78,7 @@ public class UserService {
         }
 
         return new UserDTO(
+                user.getId(),
                 user.getUsername(),
                 user.getPassword(),
                 user.getFullname(),

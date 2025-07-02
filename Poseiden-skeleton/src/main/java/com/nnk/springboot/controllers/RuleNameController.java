@@ -1,9 +1,12 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.RuleNameParamater;
 import com.nnk.springboot.domain.response.RuleNameDTO;
 import com.nnk.springboot.repositories.RuleNameRepository;
+import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.RuleNameService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +20,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class RuleNameController {
     private final RuleNameRepository ruleNameRepository;
     private final RuleNameService ruleNameService;
+    private final UserRepository userRepository;
 
-    public RuleNameController(RuleNameRepository ruleNameRepository, RuleNameService ruleNameService) {
+    public RuleNameController(RuleNameRepository ruleNameRepository, RuleNameService ruleNameService, UserRepository userRepository) {
         this.ruleNameRepository = ruleNameRepository;
         this.ruleNameService = ruleNameService;
+        this.userRepository = userRepository;
     }
     // TODO: Inject RuleName service
 
     @RequestMapping("/ruleName/list")
-    public String home(Model model)
+    public String home(Model model, HttpSession session)
     {
         // TODO: find all RuleName, add to model
         model.addAttribute("ruleNames", ruleNameRepository.findAll());
+        Integer userId = (Integer) session.getAttribute("id");
+        if (userId != null) {
+            User user = userRepository.findById(userId).orElse(null);
+            model.addAttribute("loggedUsername", user.getUsername());
+        }
         return "ruleName/list";
     }
 

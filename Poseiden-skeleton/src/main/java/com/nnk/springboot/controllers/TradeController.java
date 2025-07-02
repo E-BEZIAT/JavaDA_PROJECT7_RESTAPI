@@ -1,9 +1,12 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.TradeParameter;
 import com.nnk.springboot.domain.response.TradeDTO;
 import com.nnk.springboot.repositories.TradeRepository;
+import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.service.TradeService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +20,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TradeController {
     private final TradeRepository tradeRepository;
     private final TradeService tradeService;
+    private final UserRepository userRepository;
 
-    public TradeController(TradeRepository tradeRepository, TradeService tradeService) {
+    public TradeController(TradeRepository tradeRepository, TradeService tradeService, UserRepository userRepository) {
         this.tradeRepository = tradeRepository;
         this.tradeService = tradeService;
+        this.userRepository = userRepository;
     }
     // TODO: Inject Trade service
 
     @RequestMapping("/trade/list")
-    public String home(Model model)
+    public String home(Model model, HttpSession session)
     {
         // TODO: find all Trade, add to model
         model.addAttribute("trades", tradeRepository.findAll());
+        Integer userId = (Integer) session.getAttribute("id");
+        if (userId != null) {
+            User user = userRepository.findById(userId).orElse(null);
+            model.addAttribute("loggedUsername", user.getUsername());
+        }
         return "trade/list";
     }
 
