@@ -13,6 +13,10 @@ public class TradeService {
     @Autowired
     private TradeRepository tradeRepository;
 
+    public TradeService(TradeRepository tradeRepository) {
+        this.tradeRepository = tradeRepository;
+    }
+
     public void createTrade(TradeParameter tradeParameter) {
 
         Trade trade = new Trade(

@@ -18,6 +18,11 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
     public void createUser(UserParameter userParameter) {
         Optional<User> optUser = userRepository.findByUsernameAndPassword(
                 userParameter.getUsername(),

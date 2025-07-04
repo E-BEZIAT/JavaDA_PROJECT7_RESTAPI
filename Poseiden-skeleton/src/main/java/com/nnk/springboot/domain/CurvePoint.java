@@ -30,8 +30,8 @@ public class CurvePoint {
 
     private Timestamp creationDate;
 
-    public CurvePoint(int id, Double term, Double value) {
-        this.id = id;
+    public CurvePoint(int curveId, Double term, Double value) {
+        this.curveId = curveId;
         this.term = term;
         this.value = value;
     }

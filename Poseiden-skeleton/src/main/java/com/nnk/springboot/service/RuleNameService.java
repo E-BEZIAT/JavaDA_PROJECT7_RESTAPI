@@ -13,6 +13,10 @@ public class RuleNameService {
     @Autowired
     private RuleNameRepository ruleNameRepository;
 
+    public RuleNameService(RuleNameRepository ruleNameRepository) {
+        this.ruleNameRepository = ruleNameRepository;
+    }
+
     public void createRuleName(RuleNameParameter ruleNameParameter) {
 
         RuleName ruleName = new RuleName(

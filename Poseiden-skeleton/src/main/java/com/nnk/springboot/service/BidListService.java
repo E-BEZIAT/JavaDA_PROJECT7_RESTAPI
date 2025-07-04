@@ -13,6 +13,10 @@ public class BidListService {
     @Autowired
     private BidListRepository bidListRepository;
 
+    public BidListService(BidListRepository bidListRepository) {
+        this.bidListRepository = bidListRepository;
+    }
+
     public void createBidList(BidListParameter bidListParameter) {
 
         BidList bidList = new BidList(

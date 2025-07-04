@@ -20,13 +20,13 @@ public class userDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User profile = userRepository.findByUsername(username);
         if (profile == null) {
-            throw new UsernameNotFoundException("Utilisateur introuvable");
+            throw new UsernameNotFoundException("User not found");
         }
 
         return org.springframework.security.core.userdetails.User.builder()
                 .username(profile.getUsername())
                 .password(profile.getPassword())
-                .roles("USER")
+                .roles(profile.getRole())
                 .build();
     }
 }

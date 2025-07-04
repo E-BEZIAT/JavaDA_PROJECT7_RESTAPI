@@ -33,4 +33,6 @@ public class BidListParameter {
     private String dealType;
     private String sourceListId;
     private String side;
+
+    public BidListParameter() {}
 }

@@ -13,6 +13,10 @@ public class RatingService {
     @Autowired
     private RatingRepository ratingRepository;
 
+    public RatingService(RatingRepository ratingRepository) {
+        this.ratingRepository = ratingRepository;
+    }
+
     public void createRating(RatingParameter ratingParameter) {
 
         Rating rating = new Rating(

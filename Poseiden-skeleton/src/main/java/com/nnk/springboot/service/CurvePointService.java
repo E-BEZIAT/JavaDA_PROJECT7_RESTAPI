@@ -13,6 +13,10 @@ public class CurvePointService {
     @Autowired
     private CurvePointRepository curvePointRepository;
 
+    public CurvePointService(CurvePointRepository curvePointRepository) {
+        this.curvePointRepository = curvePointRepository;
+    }
+
     public void createCurvePoint(CurvePointParameter curvePointParameter) {
         CurvePoint curvePoint = new CurvePoint(
                 curvePointParameter.getCurveId(),
@@ -44,7 +48,7 @@ public class CurvePointService {
         curvePointRepository.delete(curvePoint);
     }
 
-    public CurvePointDTO readRating(int id) {
+    public CurvePointDTO readCurvePoint(int id) {
         CurvePoint curvePoint = curvePointRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("CurvePoint not found"));
 
