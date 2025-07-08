@@ -17,8 +17,12 @@ public class BidListService {
         this.bidListRepository = bidListRepository;
     }
 
+    /**
+     * permet de créer un BidList
+     *
+     * @param bidListParameter body à remplir lors de la création du BidList
+     */
     public void createBidList(BidListParameter bidListParameter) {
-
         BidList bidList = new BidList(
                 bidListParameter.getAccount(),
                 bidListParameter.getType(),
@@ -46,6 +50,12 @@ public class BidListService {
         bidListRepository.save(bidList);
     }
 
+    /**
+     * Permet d'update un BidList
+     *
+     * @param bidListParameter body à remplir lors de l'update
+     * @param id id du BidList à update
+     */
     public void updateBidList(BidListParameter bidListParameter, int id) {
         BidList bidList = bidListRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("bidList not found"));
@@ -71,9 +81,15 @@ public class BidListService {
         bidList.setDealType(bidListParameter.getDealType());
         bidList.setSourceListId(bidListParameter.getSourceListId());
         bidList.setSide(bidListParameter.getSide());
+
         bidListRepository.save(bidList);
     }
 
+    /**
+     * Permet de supprimer un BidList
+     *
+     * @param id id du BidList à supprimer
+     */
     public void deleteBidList(int id) {
         BidList bidList = bidListRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("bidList not found"));
@@ -81,6 +97,12 @@ public class BidListService {
         bidListRepository.delete(bidList);
     }
 
+    /**
+     * Permet de récupérer et lire un BidList
+     *
+     * @param id id du BidList à lire et récupérer
+     * @return un objet DTO qui contient les données nécessaires à la vue ou à l’API
+     */
     public BidListDTO readBidList(int id) {
         BidList bidList = bidListRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("bidList not found"));

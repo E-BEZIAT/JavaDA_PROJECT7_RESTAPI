@@ -42,7 +42,12 @@ public class RatingServiceTest {
         ratingParameter.setFitchRating("Fitch Rating");
         ratingParameter.setOrderNumber(10);
 
-        Rating savedRating = new Rating("Moodys Rating", "sand PRating", "Fitch Rating", 10);
+        Rating savedRating = new Rating(
+                "Moodys Rating",
+                "sand PRating",
+                "Fitch Rating",
+                10
+        );
 
         when(ratingRepository.save(any(Rating.class))).thenReturn(savedRating);
 
@@ -58,7 +63,12 @@ public class RatingServiceTest {
 
     @Test
     public void updateRatingTest() {
-        Rating rating = new Rating("Moodys Rating", "sand PRating", "Fitch Rating", 10);
+        Rating rating = new Rating(
+                "Moodys Rating",
+                "sand PRating",
+                "Fitch Rating",
+                10
+        );
 
         RatingParameter ratingParameter = new RatingParameter();
         ratingParameter.setMoodysRating("Moodys");
@@ -82,7 +92,12 @@ public class RatingServiceTest {
 
     @Test
     public void deleteRatingTest() {
-        Rating rating = new Rating("Moodys Rating", "sand PRating", "Fitch Rating", 10);
+        Rating rating = new Rating(
+                "Moodys Rating",
+                "sand PRating",
+                "Fitch Rating",
+                10
+        );
 
         int id = 1;
 
@@ -96,7 +111,13 @@ public class RatingServiceTest {
 
     @Test
     public void readRatingTest() {
-        Rating rating = new Rating("Moodys Rating", "sand PRating", "Fitch Rating", 10);
+        Rating rating = new Rating(
+                "Moodys Rating",
+                "sand PRating",
+                "Fitch Rating",
+                10
+        );
+
         int id = 1;
 
         when(ratingRepository.findById(id)).thenReturn(Optional.of(rating));

@@ -17,8 +17,12 @@ public class RatingService {
         this.ratingRepository = ratingRepository;
     }
 
+    /**
+     * Permet de créer un Rating
+     *
+     * @param ratingParameter body à remplir lors de la création d'un Rating
+     */
     public void createRating(RatingParameter ratingParameter) {
-
         Rating rating = new Rating(
                 ratingParameter.getMoodysRating(),
                 ratingParameter.getSandPRating(),
@@ -29,6 +33,12 @@ public class RatingService {
         ratingRepository.save(rating);
     }
 
+    /**
+     * Permet d'update un Rating
+     *
+     * @param ratingParameter body à remplir lors de l'update d'un Rating
+     * @param id id du Rating à update
+     */
     public void updateRating(RatingParameter ratingParameter, int id) {
         Rating rating = ratingRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Rating not found"));
@@ -37,15 +47,27 @@ public class RatingService {
         rating.setSandPRating(ratingParameter.getSandPRating());
         rating.setFitchRating(ratingParameter.getFitchRating());
         rating.setOrderNumber(ratingParameter.getOrderNumber());
+
         ratingRepository.save(rating);
     }
 
+    /**
+     * Permet de supprimer un Rating
+     *
+     * @param id id du Rating à supprimer
+     */
     public void deleteRating(int id) {
         Rating rating = ratingRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Rating not found"));
         ratingRepository.delete(rating);
     }
 
+    /**
+     * Permet de récupèrer et lire un Rating
+     *
+     * @param id id du Rating à lire
+     * @return un objet DTO qui contient les données nécessaires à la vue ou à l’API
+     */
     public RatingDTO readRating(int id) {
         Rating rating = ratingRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Rating not found"));

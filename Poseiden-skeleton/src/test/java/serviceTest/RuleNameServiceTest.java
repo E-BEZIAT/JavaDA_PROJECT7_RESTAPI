@@ -46,7 +46,14 @@ public class RuleNameServiceTest {
         ruleNameParameter.setSqlStr("SqlStr");
         ruleNameParameter.setSqlPart("SqlPart");
 
-        RuleName savedRuleName = new RuleName("RuleName", "Description", "Json", "Template", "SqlStr", "SqlPart");
+        RuleName savedRuleName = new RuleName(
+                "RuleName",
+                "Description",
+                "Json",
+                "Template",
+                "SqlStr",
+                "SqlPart"
+        );
 
         when(ruleNameRepository.save(any(RuleName.class))).thenReturn(savedRuleName);
 
@@ -64,7 +71,14 @@ public class RuleNameServiceTest {
 
     @Test
     public void updateRuleNameTest() {
-        RuleName ruleName = new RuleName("RuleName", "Description", "Json", "Template", "SqlStr", "SqlPart");
+        RuleName ruleName = new RuleName(
+                "RuleName",
+                "Description",
+                "Json",
+                "Template",
+                "SqlStr",
+                "SqlPart"
+        );
 
         RuleNameParameter ruleNameParameter = new RuleNameParameter();
         ruleNameParameter.setName("Name");
@@ -92,7 +106,15 @@ public class RuleNameServiceTest {
 
     @Test
     public void deleteRuleNameTest() {
-        RuleName ruleName = new RuleName("RuleName", "Description", "Json", "Template", "SqlStr", "SqlPart");
+        RuleName ruleName = new RuleName(
+                "RuleName",
+                "Description",
+                "Json",
+                "Template",
+                "SqlStr",
+                "SqlPart"
+        );
+
         int id = 1;
 
         when(ruleNameRepository.findById(id)).thenReturn(Optional.of(ruleName));
@@ -105,7 +127,15 @@ public class RuleNameServiceTest {
 
     @Test
     public void readRuleNameTest() {
-        RuleName ruleName = new RuleName("RuleName", "Description", "Json", "Template", "SqlStr", "SqlPart");
+        RuleName ruleName = new RuleName(
+                "RuleName",
+                "Description",
+                "Json",
+                "Template",
+                "SqlStr",
+                "SqlPart"
+        );
+
         int id = 1;
 
         when(ruleNameRepository.findById(id)).thenReturn(Optional.of(ruleName));

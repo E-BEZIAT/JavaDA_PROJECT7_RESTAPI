@@ -18,13 +18,19 @@ public class HomeController
 		this.userRepository = userRepository;
 	}
 
+	/**
+	 * Permet d'accèder à la page d'accueil (home)
+	 *
+	 * @param session récupère l'id de
+	 * @return retourne la page d'accueil (home)
+	 */
 	@GetMapping("/home")
-	public String home(Model model, HttpSession session)
+	public String home(HttpSession session)
 	{
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		String username = authentication.getName();
-
 		User user = userRepository.findByUsername(username);
+
 		if (user != null) {
 			session.setAttribute("id", user.getId());
 		}
@@ -32,6 +38,12 @@ public class HomeController
 		return "home";
 	}
 
+	/**
+	 * Permet d'accèder à la page d'accueil des admin
+	 *
+	 * @param model modèle de la vue
+	 * @return retourne la page d'accueil des admin
+	 */
 	@GetMapping("/admin/home")
 	public String adminHome(Model model)
 	{

@@ -23,6 +23,11 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    /**
+     * Permet de créer un User
+     *
+     * @param userParameter body à remplir lors de la création d'un User
+     */
     public void createUser(UserParameter userParameter) {
         Optional<User> optUser = userRepository.findByUsernameAndPassword(
                 userParameter.getUsername(),
@@ -44,6 +49,12 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Permet d'update un User
+     *
+     * @param id id du user à update
+     * @param userParameter body à remplir lors de l'update d'un User
+     */
     public void updateUser(int id, UserParameter userParameter) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
@@ -69,15 +80,27 @@ public class UserService {
         userRepository.save(user);
     }
 
+    /**
+     * Permet de supprimer un User
+     *
+     * @param id id du User à supprimer
+     */
     public void deleteUser(int id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         userRepository.delete(user);
     }
 
+    /**
+     * Permet de récupérer et lire un User
+     *
+     * @param id id du User à lire
+     * @return un objet DTO qui contient les données nécessaires à la vue ou à l’API
+     */
     public UserDTO readUser (int id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
+        
         if (user == null) {
             throw new IllegalArgumentException("user not found");
         }

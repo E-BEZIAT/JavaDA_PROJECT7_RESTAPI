@@ -17,8 +17,12 @@ public class RuleNameService {
         this.ruleNameRepository = ruleNameRepository;
     }
 
+    /**
+     * Permet de créer un RuleName
+     *
+     * @param ruleNameParameter body à remplir lors de la création d'un RuleName
+     */
     public void createRuleName(RuleNameParameter ruleNameParameter) {
-
         RuleName ruleName = new RuleName(
                 ruleNameParameter.getName(),
                 ruleNameParameter.getDescription(),
@@ -31,6 +35,12 @@ public class RuleNameService {
         ruleNameRepository.save(ruleName);
     }
 
+    /**
+     * Permet d'update un RuleName
+     *
+     * @param ruleNameParameter body à remplir lors de l'update d'un RuleName
+     * @param id id du RuleName à update
+     */
     public void updateRuleName(RuleNameParameter ruleNameParameter, int id) {
         RuleName ruleName = ruleNameRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("RuleName not found"));
@@ -41,15 +51,28 @@ public class RuleNameService {
         ruleName.setTemplate(ruleNameParameter.getTemplate());
         ruleName.setSqlStr(ruleNameParameter.getSqlStr());
         ruleName.setSqlPart(ruleNameParameter.getSqlPart());
+
         ruleNameRepository.save(ruleName);
     }
 
+    /**
+     * Permet de supprimer un RuleName
+     *
+     * @param id id du RuleName à supprimer
+     */
     public void deleteRuleName(int id) {
         RuleName ruleName = ruleNameRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("RuleName not found"));
+
         ruleNameRepository.delete(ruleName);
     }
 
+    /**
+     * Permet de récupérer et lire un RuleName
+     *
+     * @param id id du RuleName à lire
+     * @return un objet DTO qui contient les données nécessaires à la vue ou à l’API
+     */
     public RuleNameDTO readRuleName(int id) {
         RuleName ruleName = ruleNameRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("RuleName not found"));

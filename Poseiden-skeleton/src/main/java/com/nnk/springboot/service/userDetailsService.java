@@ -16,6 +16,13 @@ public class userDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Donne le rôle "USER" ou "ADMIN" lors de la connexion au site, ce qui permet de pouvoir naviguer dessus
+     *
+     * @param username le nom d'utilisateur utilisé pour se connecter
+     * @return
+     * @throws UsernameNotFoundException
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User profile = userRepository.findByUsername(username);

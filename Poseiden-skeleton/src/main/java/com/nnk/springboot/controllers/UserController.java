@@ -19,62 +19,113 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Permet d'afficher la liste des Users
+     *
+     * @param model modèle de la vue
+     * @return La page contenant la liste des Users
+     */
     @RequestMapping("/user/list")
-    public String home(Model model)
-    {
+    public String home(Model model) {
         model.addAttribute("users", userRepository.findAll());
+
         return "user/list";
     }
 
+    /**
+     * permet d'afficher la page de création de User
+     *
+     * @param model modèle de la vue
+     * @return retourne la page de création de User
+     */
     @GetMapping("/user/add")
     public String addUser(Model model) {
         model.addAttribute("user", new UserParameter());
+
         return "user/add";
     }
 
+    /**
+     * Permet de créer un nouveau User
+     *
+     * @param user body à remplir lors de la création d'un nouveau User
+     * @param result Vérifie si il y a eu des erreurs lors de la création d'un User
+     * @param model modèle de la vue
+     * @return Si succès, retourne la page contenant la liste des Users, sinon retourne la page de création de User
+     */
     @PostMapping("/user/validate")
     public String validate(@Valid UserParameter user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             result.getAllErrors().forEach(error -> System.out.println("Validation error: " + error.toString()));
             return "redirect:/user/add";
         }
-
         userService.createUser(user);
         model.addAttribute("message", "User created successfully");
+
         return "user/list";
     }
 
+    /**
+     * Permet d'afficher la page d'update d'un User
+     *
+     * @param id id du User à update
+     * @param model modèle de la vue
+     * @return retourne la page de login si l'id est null, sinon retourne la page d'update du User
+     */
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
         if (id == null) {
             return "redirect:/login";
         }
-
         UserDTO userDTO = userService.readUser(id);
         model.addAttribute("user", userDTO);
+
         return "user/update";
     }
 
+    /**
+     * Permet d'update un User
+     *
+     * @param user body à remplir lors de l'update d'un User
+     * @param result Vérifie si il y a eu des erreurs lors de l'update d'un User
+     * @param model modèle de la vue
+     * @param session récupère et stock l'id de l'utilisateur
+     * @return Si succès, retourne la page contenant la liste des users, sinon retourne la page d'update du User.
+     * Si id est null, retourne la page de login
+     */
     @PostMapping("/user/update")
-    public String updateUser(@Valid @ModelAttribute("user") UserParameter user, BindingResult result, Model model, HttpSession session) {
+    public String updateUser(
+            @Valid @ModelAttribute("user") UserParameter user,
+            BindingResult result,
+            Model model,
+            HttpSession session
+    ){
         if (result.hasErrors()) {
             return "user/update";
         }
-
         Integer id = (Integer) session.getAttribute("id");
+
         if (id == null) {
             return "redirect:/login";
         }
-
         userService.updateUser(id, user);
         model.addAttribute("success", true);
+
         return "redirect:/user/list";
     }
 
+    /**
+     * Permet de supprimer un User
+     *
+     * @param id id du User à supprimer
+     * @param model modèle de la vue
+     * @return retourne la page contenant la liste des Users
+     */
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
         userService.deleteUser(id);
         model.addAttribute("users", userRepository.findAll());
+
         return "redirect:/user/list";
     }
 }

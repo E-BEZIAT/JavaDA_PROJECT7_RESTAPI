@@ -17,6 +17,11 @@ public class CurvePointService {
         this.curvePointRepository = curvePointRepository;
     }
 
+    /**
+     * Permet de créer un CurvePoint
+     *
+     * @param curvePointParameter body à remplir lors de la création du CurvePoint
+     */
     public void createCurvePoint(CurvePointParameter curvePointParameter) {
         CurvePoint curvePoint = new CurvePoint(
                 curvePointParameter.getCurveId(),
@@ -29,6 +34,12 @@ public class CurvePointService {
         curvePointRepository.save(curvePoint);
     }
 
+    /**
+     * permet d'update un CurvePoint
+     *
+     * @param curvePointParameter body à remplir lors de l'update d'un CurvePoint
+     * @param id id du CurvePoint à update
+     */
     public void updateCurvePoint(CurvePointParameter curvePointParameter, int id) {
         CurvePoint curvePoint = curvePointRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("CurvePoint not found"));
@@ -38,9 +49,15 @@ public class CurvePointService {
         curvePoint.setTerm(curvePointParameter.getTerm());
         curvePoint.setValue(curvePointParameter.getValue());
         curvePoint.setCreationDate(curvePointParameter.getCreationDate());
+
         curvePointRepository.save(curvePoint);
     }
 
+    /**
+     * Permet de supprimer un CurvePoint
+     *
+     * @param id id du CurvePoint à supprimer
+     */
     public void deleteCurvePoint(int id) {
         CurvePoint curvePoint = curvePointRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("CurvePoint not found"));
@@ -48,6 +65,12 @@ public class CurvePointService {
         curvePointRepository.delete(curvePoint);
     }
 
+    /**
+     * Permet de récupérer et lire un CurvePoint
+     *
+     * @param id id du CurvePoint à lire
+     * @return un objet DTO qui contient les données nécessaires à la vue ou à l’API
+     */
     public CurvePointDTO readCurvePoint(int id) {
         CurvePoint curvePoint = curvePointRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("CurvePoint not found"));

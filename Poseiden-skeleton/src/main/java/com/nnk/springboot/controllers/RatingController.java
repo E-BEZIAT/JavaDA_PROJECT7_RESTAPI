@@ -22,69 +22,121 @@ public class RatingController {
     private final RatingService ratingService;
     private final UserRepository userRepository;
 
-    public RatingController(RatingRepository ratingRepository, RatingService ratingService, UserRepository userRepository) {
+    public RatingController(
+            RatingRepository ratingRepository,
+            RatingService ratingService,
+            UserRepository userRepository
+    ){
         this.ratingRepository = ratingRepository;
         this.ratingService = ratingService;
         this.userRepository = userRepository;
     }
-    // TODO: Inject Rating service
 
+    /**
+     * Permet d'afficher la page de la liste des Rating
+     *
+     * @param model modèle de la vue
+     * @param session récupère et stock l'id de l'utilisateur
+     * @return retourne la page de la liste des Rating
+     */
     @RequestMapping("/rating/list")
-    public String home(Model model, HttpSession session)
-    {
-        // TODO: find all Rating, add to model
+    public String home(Model model, HttpSession session) {
         model.addAttribute("ratings", ratingRepository.findAll());
         Integer userId = (Integer) session.getAttribute("id");
+
         if (userId != null) {
             User user = userRepository.findById(userId).orElse(null);
             model.addAttribute("loggedUsername", user.getUsername());
         }
+
         return "rating/list";
     }
 
+    /**
+     * Permet d'afficher la page de création de Rating
+     *
+     * @param model modèle de la vue
+     * @return Retourne la page de création des Rating
+     */
     @GetMapping("/rating/add")
     public String addRatingForm(Model model) {
         model.addAttribute("rating", new RatingParameter());
+
         return "rating/add";
     }
 
+    /**
+     * Permet de créer un Rating
+     *
+     * @param rating body du Rating à remplir lors de la création
+     * @param result Vérifie si il y a eu des erreurs lors de la création d'un Rating
+     * @param model modèle de la vue
+     * @return Si succès, retourne la page de la liste des Rating, sinon retourne la page de création du Rating
+     */
     @PostMapping("/rating/validate")
     public String validate(@Valid RatingParameter rating, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Rating list
         if (result.hasErrors()) {
             return "rating/add";
         }
         ratingService.createRating(rating);
         model.addAttribute("message", "Rating created successfully");
+
         return "rating/list";
     }
 
+    /**
+     * Permet d'accèder à la page d'update du Rating
+     *
+     * @param id id du Rating à modifier
+     * @param model modèle de la vue
+     * @return Retourne la page pour update un Rating
+     */
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get Rating by Id and to model then show to the form
         RatingDTO ratingDTO = ratingService.readRating(id);
         model.addAttribute("rating", ratingDTO);
+
         return "rating/update";
     }
 
+    /**
+     * Permet d'update une Rating
+     *
+     * @param id id du Rating à update
+     * @param rating body du Rating à remplir pour l'update
+     * @param result Vérifie si il y a eu des erreurs lors de la l'update d'un Rating
+     * @param model modèle de la vue
+     * @return Si succès retourne la page de la liste des Rating, sinon retourne la page d'update du Rating
+     */
     @PostMapping("/rating/update/{id}")
-    public String updateRating(@PathVariable("id") Integer id, @Valid RatingParameter rating,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Rating and return Rating list
+    public String updateRating(
+            @PathVariable("id") Integer id,
+            @Valid RatingParameter rating,
+            BindingResult result,
+            Model model
+    ){
         if (result.hasErrors()) {
             return "rating/update";
         }
 
         ratingService.updateRating(rating, id);
         model.addAttribute("success", true);
+
         return "redirect:/rating/list";
     }
 
+    /**
+     * Permet de supprimer un Rating
+     *
+     * @param id id du rating a update
+     * @param model modèle de la vue
+     * @return Retourne la page de la liste des Rating
+     */
     @GetMapping("/rating/delete/{id}")
     public String deleteRating(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Rating by Id and delete the Rating, return to Rating list
         ratingService.deleteRating(id);
         model.addAttribute("ratings", ratingRepository.findAll());
+
         return "redirect:/rating/list";
     }
 }

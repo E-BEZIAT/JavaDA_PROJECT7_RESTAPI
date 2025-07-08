@@ -17,8 +17,12 @@ public class TradeService {
         this.tradeRepository = tradeRepository;
     }
 
+    /**
+     * Permet de créer un Trade
+     *
+     * @param tradeParameter body à remplir lors de la création d'un Trade
+     */
     public void createTrade(TradeParameter tradeParameter) {
-
         Trade trade = new Trade(
                 tradeParameter.getAccount(),
                 tradeParameter.getType(),
@@ -45,6 +49,12 @@ public class TradeService {
         tradeRepository.save(trade);
     }
 
+    /**
+     * Permet d'update un Trade
+     *
+     * @param tradeParameter body à remplir lors de l'update d'un Trade
+     * @param id id du Trade à update
+     */
     public void updateTrade(TradeParameter tradeParameter, int id) {
         Trade trade = tradeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found"));
@@ -69,9 +79,15 @@ public class TradeService {
         trade.setDealType(tradeParameter.getDealType());
         trade.setSourceListId(tradeParameter.getSourceListId());
         trade.setSide(tradeParameter.getSide());
+
         tradeRepository.save(trade);
     }
 
+    /**
+     * permet de supprimer un Trade
+     *
+     * @param id id du Trade à supprimer
+     */
     public void deleteTrade(int id) {
         Trade trade = tradeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found"));
@@ -79,6 +95,12 @@ public class TradeService {
         tradeRepository.delete(trade);
     }
 
+    /**
+     * Permet de récupérer et lire un Trade
+     *
+     * @param id id du Trade à lire
+     * @return un objet DTO qui contient les données nécessaires à la vue ou à l’API
+     */
     public TradeDTO readTrade(int id) {
         Trade trade = tradeRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Trade not found"));

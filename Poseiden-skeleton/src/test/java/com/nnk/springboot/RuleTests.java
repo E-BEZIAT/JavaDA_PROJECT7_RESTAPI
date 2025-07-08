@@ -22,7 +22,14 @@ public class RuleTests {
 
 	@Test
 	public void ruleTest() {
-		RuleName rule = new RuleName("Rule Name", "Description", "Json", "Template", "SQL", "SQL Part");
+		RuleName rule = new RuleName(
+				"Rule Name",
+				"Description",
+				"Json",
+				"Template",
+				"SQL",
+				"SQL Part"
+		);
 
 		// Save
 		rule = ruleNameRepository.save(rule);
