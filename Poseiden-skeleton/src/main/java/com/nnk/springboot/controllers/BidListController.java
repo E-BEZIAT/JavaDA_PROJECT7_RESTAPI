@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.BidListParameter;
 import com.nnk.springboot.domain.response.BidListDTO;
@@ -14,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class BidListController {
@@ -40,7 +43,9 @@ public class BidListController {
      */
     @GetMapping("/bidList/list")
     public String home(Model model, HttpSession session) {
-        model.addAttribute("bidLists", bidListRepository.findAll());
+        List<BidList> bidLists = bidListRepository.findAll();
+        bidLists.forEach(b -> System.out.println("ID: " + b.getBidListId() + ", Account: " + b.getAccount()));
+        model.addAttribute("bidLists", bidLists);
         Integer userId = (Integer) session.getAttribute("id");
 
         if (userId != null) {

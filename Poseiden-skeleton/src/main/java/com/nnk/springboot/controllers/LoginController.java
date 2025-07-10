@@ -41,7 +41,7 @@ public class LoginController {
      *
      * @return la page d'erreur
      */
-    @GetMapping("/error")
+    @GetMapping("/error-403")
     public ModelAndView error() {
         ModelAndView mav = new ModelAndView();
         String errorMessage= "You are not authorized for the requested data.";

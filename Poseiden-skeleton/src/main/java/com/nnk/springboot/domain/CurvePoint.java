@@ -16,17 +16,17 @@ import java.sql.Timestamp;
 public class CurvePoint {
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column(name = "CurveId")
+    @Column(name = "Curve_Id")
     private int curveId;
-
+    @Column(name = "as_Of_Date")
     private Timestamp asOfDate;
 
     private Double term;
 
     private Double value;
-
+    @Column(name = "creation_Date")
     private Timestamp creationDate;
 
     public CurvePoint(int curveId, Double term, Double value) {
