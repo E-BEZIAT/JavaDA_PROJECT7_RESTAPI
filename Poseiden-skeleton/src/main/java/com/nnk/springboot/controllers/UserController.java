@@ -89,24 +89,18 @@ public class UserController {
      * @param user body à remplir lors de l'update d'un User
      * @param result Vérifie si il y a eu des erreurs lors de l'update d'un User
      * @param model modèle de la vue
-     * @param session récupère et stock l'id de l'utilisateur
      * @return Si succès, retourne la page contenant la liste des users, sinon retourne la page d'update du User.
      * Si id est null, retourne la page de login
      */
-    @PostMapping("/user/update")
+    @PostMapping("/user/update/{id}")
     public String updateUser(
+            @PathVariable("id") Integer id,
             @Valid @ModelAttribute("user") UserParameter user,
             BindingResult result,
-            Model model,
-            HttpSession session
+            Model model
     ){
         if (result.hasErrors()) {
             return "user/update";
-        }
-        Integer id = (Integer) session.getAttribute("id");
-
-        if (id == null) {
-            return "redirect:/login";
         }
         userService.updateUser(id, user);
         model.addAttribute("success", true);
