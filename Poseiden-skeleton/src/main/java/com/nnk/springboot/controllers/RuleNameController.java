@@ -11,10 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RuleNameController {
@@ -74,7 +71,7 @@ public class RuleNameController {
      * @return Si succès, retourne la page contenant la liste de RuleNames, sinon retourne la page de création de RuleName
      */
     @PostMapping("/ruleName/validate")
-    public String validate(@Valid RuleNameParameter ruleName, BindingResult result, Model model) {
+    public String validate(@Valid @ModelAttribute("ruleName") RuleNameParameter ruleName, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "ruleName/add";
         }
@@ -82,7 +79,7 @@ public class RuleNameController {
         ruleNameService.createRuleName(ruleName);
         model.addAttribute("message", "RuleName added successfully");
 
-        return "ruleName/list";
+        return "redirect:/ruleName/list";
     }
 
     /**
@@ -112,7 +109,7 @@ public class RuleNameController {
     @PostMapping("/ruleName/update/{id}")
     public String updateRuleName(
             @PathVariable("id") Integer id,
-            @Valid RuleNameParameter ruleName,
+            @Valid @ModelAttribute("ruleName") RuleNameParameter ruleName,
             BindingResult result,
             Model model
     ){

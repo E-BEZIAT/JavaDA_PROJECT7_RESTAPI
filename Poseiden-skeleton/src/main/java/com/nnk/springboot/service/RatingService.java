@@ -4,14 +4,12 @@ import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.domain.parameters.RatingParameter;
 import com.nnk.springboot.domain.response.RatingDTO;
 import com.nnk.springboot.repositories.RatingRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class RatingService {
 
-    @Autowired
-    private RatingRepository ratingRepository;
+    private final RatingRepository ratingRepository;
 
     public RatingService(RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;

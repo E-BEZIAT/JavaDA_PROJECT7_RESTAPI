@@ -4,14 +4,12 @@ import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.domain.parameters.TradeParameter;
 import com.nnk.springboot.domain.response.TradeDTO;
 import com.nnk.springboot.repositories.TradeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TradeService {
 
-    @Autowired
-    private TradeRepository tradeRepository;
+    private final TradeRepository tradeRepository;
 
     public TradeService(TradeRepository tradeRepository) {
         this.tradeRepository = tradeRepository;

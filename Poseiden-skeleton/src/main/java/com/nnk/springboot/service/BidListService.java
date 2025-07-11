@@ -4,14 +4,12 @@ import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.parameters.BidListParameter;
 import com.nnk.springboot.domain.response.BidListDTO;
 import com.nnk.springboot.repositories.BidListRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class BidListService {
 
-    @Autowired
-    private BidListRepository bidListRepository;
+    private final BidListRepository bidListRepository;
 
     public BidListService(BidListRepository bidListRepository) {
         this.bidListRepository = bidListRepository;

@@ -11,10 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RatingController {
@@ -74,14 +71,14 @@ public class RatingController {
      * @return Si succès, retourne la page de la liste des Rating, sinon retourne la page de création du Rating
      */
     @PostMapping("/rating/validate")
-    public String validate(@Valid RatingParameter rating, BindingResult result, Model model) {
+    public String validate(@Valid @ModelAttribute("rating") RatingParameter rating, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "rating/add";
         }
         ratingService.createRating(rating);
         model.addAttribute("message", "Rating created successfully");
 
-        return "rating/list";
+        return "redirect:/rating/list";
     }
 
     /**
@@ -111,7 +108,7 @@ public class RatingController {
     @PostMapping("/rating/update/{id}")
     public String updateRating(
             @PathVariable("id") Integer id,
-            @Valid RatingParameter rating,
+            @Valid @ModelAttribute("rating") RatingParameter rating,
             BindingResult result,
             Model model
     ){

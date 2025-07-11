@@ -11,10 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class TradeController {
@@ -70,14 +67,14 @@ public class TradeController {
      * @return Si succès, retourne la page contenant la liste des Trades, sinon retourne la page de création du Trade
      */
     @PostMapping("/trade/validate")
-    public String validate(@Valid TradeParameter trade, BindingResult result, Model model) {
+    public String validate(@Valid @ModelAttribute("trade") TradeParameter trade, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "trade/add";
         }
         tradeService.createTrade(trade);
         model.addAttribute("message", "Trade created successfully");
 
-        return "trade/list";
+        return "redirect:/trade/list";
     }
 
     /**
@@ -107,7 +104,7 @@ public class TradeController {
     @PostMapping("/trade/update/{id}")
     public String updateTrade(
             @PathVariable("id") Integer id,
-            @Valid TradeParameter trade,
+            @Valid @ModelAttribute("trade") TradeParameter trade,
             BindingResult result,
             Model model
     ){

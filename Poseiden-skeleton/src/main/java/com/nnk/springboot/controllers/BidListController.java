@@ -1,6 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.parameters.BidListParameter;
 import com.nnk.springboot.domain.response.BidListDTO;
@@ -13,10 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
 
 @Controller
 public class BidListController {
@@ -43,9 +41,7 @@ public class BidListController {
      */
     @GetMapping("/bidList/list")
     public String home(Model model, HttpSession session) {
-        List<BidList> bidLists = bidListRepository.findAll();
-        bidLists.forEach(b -> System.out.println("ID: " + b.getBidListId() + ", Account: " + b.getAccount()));
-        model.addAttribute("bidLists", bidLists);
+        model.addAttribute("bidLists", bidListRepository.findAll());
         Integer userId = (Integer) session.getAttribute("id");
 
         if (userId != null) {
@@ -72,21 +68,25 @@ public class BidListController {
     /**
      * permet de créer de nouveaux BidList
      *
-     * @param bid body d'un BidList à remplir lors de l'enregistrement
+     * @param bidList body d'un BidList à remplir lors de l'enregistrement
      * @param result Vérifie si il y a eu des erreurs lors de la création d'un BidList
      * @param model modèle de la vue
      * @return en cas de succès, retourne la page de la liste des BidList, sinon retourne la page de création de BidList
      */
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidListParameter bid, BindingResult result, Model model) {
+    public String validate(
+            @Valid @ModelAttribute("bidList") BidListParameter bidList,
+            BindingResult result,
+            Model model
+    ) {
         if (result.hasErrors()) {
             return "bidList/add";
         }
 
-        bidListService.createBidList(bid);
+        bidListService.createBidList(bidList);
         model.addAttribute("message", "bidList created successfully");
 
-        return "bidList/list";
+        return "redirect:/bidList/list";
     }
 
     /**
@@ -115,7 +115,7 @@ public class BidListController {
     @PostMapping("/bidList/update/{id}")
     public String updateBid(
             @PathVariable("id") Integer id,
-            @Valid BidListParameter bidList,
+            @Valid @ModelAttribute("bidList") BidListParameter bidList,
             BindingResult result,
             Model model
     ){

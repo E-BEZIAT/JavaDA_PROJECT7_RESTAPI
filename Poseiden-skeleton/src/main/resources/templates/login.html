@@ -9,6 +9,10 @@
 <div class="container">
     <h1>Login Screen</h1>
 
+    <div th:if="${loginError}" class="alert alert-danger" role="alert">
+        <p th:text="${loginError}"></p>
+    </div>
+
     <form th:action="@{/login}" method="post">
         <label>Username:</label>
         <input type="text" name="username"/><br/>

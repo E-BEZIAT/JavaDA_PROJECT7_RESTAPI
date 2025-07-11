@@ -4,6 +4,7 @@ import com.nnk.springboot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -18,9 +19,14 @@ public class LoginController {
      * @return retourne la page de login
      */
     @GetMapping("/login")
-    public ModelAndView login() {
+    public ModelAndView login(@RequestParam(value = "error", required = false) String error) {
         ModelAndView mav = new ModelAndView();
         mav.setViewName("login");
+
+        if (error != null) {
+            mav.addObject("loginError", "Username or password is incorrect ");
+        }
+
         return mav;
     }
 

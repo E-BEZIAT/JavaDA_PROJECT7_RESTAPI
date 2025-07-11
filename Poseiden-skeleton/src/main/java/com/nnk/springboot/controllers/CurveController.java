@@ -83,7 +83,7 @@ public class CurveController {
         curvePointService.createCurvePoint(curvePoint);
         model.addAttribute("message", "CurvePoint created successfully");
 
-        return "curvePoint/list";
+        return "redirect:/curvePoint/list";
     }
 
     /**
@@ -113,7 +113,7 @@ public class CurveController {
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(
             @PathVariable("id") Integer id,
-            @Valid CurvePointParameter curvePoint,
+            @Valid @ModelAttribute("curvePoint") CurvePointParameter curvePoint,
             BindingResult result,
             Model model
     ){

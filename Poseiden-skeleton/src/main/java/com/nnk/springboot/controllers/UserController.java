@@ -54,15 +54,14 @@ public class UserController {
      * @return Si succès, retourne la page contenant la liste des Users, sinon retourne la page de création de User
      */
     @PostMapping("/user/validate")
-    public String validate(@Valid UserParameter user, BindingResult result, Model model) {
+    public String validate(@Valid @ModelAttribute("user") UserParameter user, BindingResult result, Model model) {
         if (result.hasErrors()) {
-            result.getAllErrors().forEach(error -> System.out.println("Validation error: " + error.toString()));
             return "redirect:/user/add";
         }
         userService.createUser(user);
         model.addAttribute("message", "User created successfully");
 
-        return "user/list";
+        return "redirect:/user/list";
     }
 
     /**
